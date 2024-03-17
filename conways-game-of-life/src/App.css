@@ -1,0 +1,55 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid {
+  display: grid;
+  margin: 20px auto;
+}
+
+.cell {
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+}
+
+.alive {
+  background-color: black;
+}
+
+.dead {
+  background-color: white;
+}
+
+.controls {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.controls button {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+input[type='number'] {
+  width: 60px;
+  margin-right: 10px;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.navbar-brand,
+.nav-link {
+  cursor: pointer;
+}

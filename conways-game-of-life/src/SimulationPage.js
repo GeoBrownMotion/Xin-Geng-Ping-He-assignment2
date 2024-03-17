@@ -18,7 +18,7 @@ const SimulationPage = () => {
 
   useEffect(() => {
     initializeGrid();
-  }, [initializeGrid]);
+  }, []);
 
   const toggleCell = (row, col) => {
     const updatedGrid = [...grid];

@@ -1,1 +1,23 @@
 # Xin-Geng-Ping-He-assignment2
+Bonus Points:
+
+  2. Clustered Setup - 2pts
+  
+        Conway’s Game of Life works best when cells are clustered together in interesting patterns.  Think of/research and then implement an algorithm that will cluster cells together so that while only about 5-10% of the grid is alive, those cells are more likely to be close together.  Describe your approach in your deliverables.
+
+        Answer: We already add specific comments in the *GameContext.js* file. And there is summary of this question: 
+        
+        The approach involves two key functions: *createEmptyGrid* for initializing the grid with all cells dead, and *populateClusters* to populate the grid with clusters of alive cells. The *createEmptyGrid* function generates a 2D array representing the grid, where each cell is initially set to *false*, indicating it is dead. This function takes the grid's dimensions (rows and columns) as parameters. The *populateClusters* function then takes over, aiming to populate the grid with alive cells while maintaining a target density of 5-10%. This is achieved by selecting random cells and turning them alive until the target number of alive cells is reached. The function carefully checks to ensure that it only activates cells that are initially dead to avoid overpopulation These functionalities are encapsulated within the *GameProvider* component, which uses React's context and state hooks to manage and provide the game state to the rest of the application. A *useCallback* hook memoizes the initialization function to optimize performance, ensuring that the grid is only re-initialized when necessary, based on the dependency array which includes the grid size. In summary, this approach not only adheres to the specified alive cell density but also fosters a more engaging and dynamic simulation environment by encouraging the formation of clusters. This method reflects an understanding of Conway's Game of Life's principles, emphasizing the importance of initial conditions in complex systems.
+
+  3. Autoplay Feature - 3pts
+        Underneath the grid, next to the “Next Frame” button, you should add an autoplay button.  This will automatically progress the simulation by a single every 100 millisecond.  When a user presses the button again, the auto play feature should stop.
+
+        Answer: Details regarding the "Autoplay Feature" feature are added within the *SimulationPage.js* file.
+  4. Longer Lasting Cells - 3pts
+  
+        Add a toggle somewhere on the page to make the cells “Longer Lasting”.  In this mode, one or two cells (that are set to “die”) instead of the ability to move one grid space (up, down, left, or right) to the closest cell.  These cells have 2 frames to find another cell to survive, or else they will die.  If they reach another cell and survive another round, their 2-frame life will reset.  Be careful with this question, there are a lot of gotchas in the code
+
+        Answer: Detailed comments regarding the "Longer Lasting Cells" feature are integrated within the *GameContext.js* file, alongside a comprehensive summary provided below:
+        
+        This feature is facilitated through two pivotal functions: the *updateGrid*, which applies the standard game rules along with the new logic for cell movement, and the *tryMoveCell*, specifically designed to assess and execute the movement of eligible cells. It starts with the *updateGrid*, which iterates over each cell in the grid to determine its fate based on Conway's original rules and the additional "Longer Lasting Cells" logic. When the *longerLastingCellsEnabled* state is true, indicating that the feature is active, cells that would normally die are given a chance to "move" to an adjacent empty space. This logic is executed through the *tryMoveCell*, which checks the surrounding spaces for eligibility (i.e., within grid bounds and currently unoccupied) and moves the cell to the first available spot. The *tryMoveCell* employs a set of directional vectors to examine adjacent cells in all eight possible directions. If an eligible space is found, the cell is relocated, effectively granting it a longer life than it would have had under the standard rules. To manage cells undergoing this unique "second chance" process, a *newMovingCells* Map object is utilized, tracking cells with their remaining moves allowed. This ensures that the movement opportunity is limited, preserving the game's balance and adding depth to the strategy involved in cell survival.
+        

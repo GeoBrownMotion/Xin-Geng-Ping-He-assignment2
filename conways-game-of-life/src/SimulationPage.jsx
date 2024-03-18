@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect } from "react";
 import { GameContext } from "./GameContext";
 import Grid from "./Grid";
@@ -16,7 +15,7 @@ const SimulationPage = () => {
     initializeGrid,
     longerLastingCellsEnabled,
     setLongerLastingCellsEnabled,
-    updateGrid
+    updateGrid,
   } = useContext(GameContext);
 
   useEffect(() => {
@@ -27,15 +26,18 @@ const SimulationPage = () => {
     const updatedGrid = [...grid];
     updatedGrid[row][col] = !updatedGrid[row][col];
     setGrid(updatedGrid);
-    const liveCellsCount = updatedGrid.flat().filter(cell => cell).length;
+    const liveCellsCount = updatedGrid.flat().filter((cell) => cell).length;
     setLiveCells(liveCellsCount);
   };
 
-  useInterval(() => {
-    if (isRunning) {
-      updateGrid();
-    }
-  }, isRunning ? 100 : null);
+  useInterval(
+    () => {
+      if (isRunning) {
+        updateGrid();
+      }
+    },
+    isRunning ? 200 : null
+  );
 
   const toggleAutoplay = () => {
     setIsRunning(!isRunning);
@@ -47,15 +49,23 @@ const SimulationPage = () => {
       <div className="container">
         <Grid grid={grid} toggleCell={toggleCell} />
         <div className="controls">
-          <button className="btn btn-primary" onClick={initializeGrid}>Reset Grid</button>
-          <button className="btn btn-primary" onClick={() => updateGrid()}>Next Frame</button>
-          <button className="btn btn-primary" onClick={toggleAutoplay}>{isRunning ? "Stop" : "Start"} Autoplay</button>
+          <button className="btn btn-primary" onClick={initializeGrid}>
+            Reset Grid
+          </button>
+          <button className="btn btn-primary" onClick={() => updateGrid()}>
+            Next Frame
+          </button>
+          <button className="btn btn-primary" onClick={toggleAutoplay}>
+            {isRunning ? "Stop" : "Start"} Autoplay
+          </button>
           <label>
             Longer Lasting Cells:
             <input
               type="checkbox"
               checked={longerLastingCellsEnabled}
-              onChange={() => setLongerLastingCellsEnabled(!longerLastingCellsEnabled)}
+              onChange={() =>
+                setLongerLastingCellsEnabled(!longerLastingCellsEnabled)
+              }
             />
           </label>
           <p>Live Cells: {liveCells}</p>

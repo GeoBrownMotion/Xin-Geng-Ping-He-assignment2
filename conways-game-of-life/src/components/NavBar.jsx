@@ -1,6 +1,6 @@
 import { Layout, Menu, theme } from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const { Header } = Layout;
 
@@ -31,7 +31,7 @@ export default () => {
           selectedKeys={[location.pathname]}
           items={menuItems}
           style={{
-            flex: 1,
+            flex: 2,
             minWidth: 0,
           }}
           onClick={(item) => {

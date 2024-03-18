@@ -10,7 +10,7 @@
 
 .grid {
   display: grid;
-  margin: 20px auto;
+  margin: 20px;
 }
 
 .cell {
@@ -19,7 +19,6 @@
   border: 1px solid black;
   cursor: "pointer",
 }
-
 
 
 .controls {
@@ -51,3 +50,9 @@ input[type='number'] {
 .nav-link {
   cursor: pointer;
 }
+
+
+
+
+
+

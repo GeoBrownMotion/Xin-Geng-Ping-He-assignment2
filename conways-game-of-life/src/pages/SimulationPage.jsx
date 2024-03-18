@@ -1,3 +1,4 @@
+import { Button, Form, InputNumber } from "antd";
 import React, { useContext, useEffect } from "react";
 import { GameContext } from "../GameContext";
 import Grid from "../components/Grid";
@@ -9,6 +10,8 @@ const SimulationPage = () => {
     grid,
     frame,
     setGrid,
+    gridSize,
+    setGridSize,
     isRunning,
     setIsRunning,
     liveCellsCount,
@@ -42,10 +45,51 @@ const SimulationPage = () => {
     setIsRunning(!isRunning);
   };
 
+  const [form] = Form.useForm();
+
   return (
     <>
       <NavBar />
       <div className="container">
+        <Form
+          initialValues={gridSize}
+          layout="inline"
+          from={form}
+          onFinish={(values) => setGridSize(values)}
+        >
+          <Form.Item
+            label="Rows"
+            name="rows"
+            rules={[
+              {
+                type: "number",
+                min: 3,
+                max: 40,
+                required: true,
+              },
+            ]}
+          >
+            <InputNumber />
+          </Form.Item>
+          <Form.Item
+            label="Columns"
+            name="cols"
+            rules={[
+              {
+                type: "number",
+                min: 3,
+                max: 40,
+                required: true,
+              },
+            ]}
+          >
+            <InputNumber />
+          </Form.Item>
+          <Form.Item>
+            <Button htmlType="submit">Resize Grid</Button>
+          </Form.Item>
+        </Form>
+
         <Grid grid={grid} toggleCell={toggleCell} />
         <div className="controls">
           <button className="btn btn-primary" onClick={initializeGrid}>

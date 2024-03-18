@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 
 export const GameContext = createContext();
 
@@ -54,6 +54,10 @@ export const GameProvider = ({ children }) => {
     populateClusters(newGrid, targetActiveCells, gridSize.rows, gridSize.cols);
     setGrid(newGrid);
     setFrame(0);
+  }, [gridSize.rows, gridSize.cols]);
+
+  useEffect(() => {
+    initializeGrid();
   }, [gridSize.rows, gridSize.cols]);
 
   // This updateGrid function includes logic for the "Longer Lasting Cells" feature.

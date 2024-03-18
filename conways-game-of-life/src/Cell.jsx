@@ -1,12 +1,38 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GameContext } from "./GameContext";
 
-const Cell = ({ isAlive, toggleCell }) => {
+const Cell = ({ cell, toggleCell }) => {
+  const { frame } = useContext(GameContext);
+
+  const { live, lastLiveFrame } = cell;
+
+  function calcGray() {
+    if (live) {
+      return 0;
+    }
+
+    if (lastLiveFrame === null) {
+      return 255;
+    }
+
+    const deadTime = frame - lastLiveFrame;
+    if (deadTime > 10) {
+      return 255;
+    }
+
+    return parseInt(deadTime * 25.5);
+  }
+
+  const gray = calcGray();
+
   return (
     <div
-      className={`cell ${isAlive ? "alive" : "dead"}`}
+      className="cell"
       onClick={toggleCell}
-      style={{ width: "20px", height: "20px", cursor: "pointer" }} // Ensure cell size and clickable cursor
-    />
+      style={{
+        backgroundColor: `rgb(${gray},${gray},${gray})`,
+      }}
+    ></div>
   );
 };
 

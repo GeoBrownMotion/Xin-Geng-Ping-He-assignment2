@@ -7,6 +7,7 @@ import useInterval from "./useInterval";
 const SimulationPage = () => {
   const {
     grid,
+    frame,
     setGrid,
     isRunning,
     setIsRunning,
@@ -24,6 +25,7 @@ const SimulationPage = () => {
   const toggleCell = (row, col) => {
     const updatedGrid = [...grid];
     updatedGrid[row][col].live = !updatedGrid[row][col].live;
+    updatedGrid[row][col].lastLiveFrame = frame;
     setGrid(updatedGrid);
   };
 

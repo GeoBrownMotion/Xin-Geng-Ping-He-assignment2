@@ -39,6 +39,7 @@ export const GameProvider = ({ children }) => {
       // Check if the selected cell is dead, to turn it alive
       if (!grid[centerRow][centerCol].live) {
         grid[centerRow][centerCol].live = true;
+        grid[centerRow][centerCol].lastLiveFrame = 0;
         placedActiveCells++;
       }
     }
@@ -59,7 +60,8 @@ export const GameProvider = ({ children }) => {
   // When enabled, it allows cells that are about to die the chance to move to an adjacent empty space,
   // providing a unique twist on the traditional game rules.
   const updateGrid = useCallback(() => {
-    setFrame((f) => f + 1);
+    const nextFrame = frame + 1;
+    setFrame(nextFrame);
     const newGrid = createEmptyGrid(gridSize.rows, gridSize.cols);
     let newMovingCells = new Map([...movingCells]); // Clone moving cells state
 
@@ -92,6 +94,12 @@ export const GameProvider = ({ children }) => {
         }
         // Apply the standard rule or after attempting to move
         newGrid[row][col].live = cellShouldLive;
+
+        if (cellShouldLive) {
+          newGrid[row][col].lastLiveFrame = nextFrame;
+        } else {
+          newGrid[row][col].lastLiveFrame = grid[row][col].lastLiveFrame;
+        }
       }
     }
     // Processes moving cells that haven't found a new home yet,
@@ -139,6 +147,7 @@ export const GameProvider = ({ children }) => {
 
   const value = {
     grid,
+    frame,
     setGrid,
     gridSize,
     setGridSize,

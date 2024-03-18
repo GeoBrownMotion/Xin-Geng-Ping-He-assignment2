@@ -14,15 +14,10 @@
   width: 20px;
   height: 20px;
   border: 1px solid black;
+  cursor: "pointer",
 }
 
-.alive {
-  background-color: black;
-}
 
-.dead {
-  background-color: white;
-}
 
 .controls {
   margin-top: 20px;

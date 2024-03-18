@@ -18,7 +18,7 @@ const Grid = ({ grid, toggleCell }) => {
         row.map((cell, colIndex) => (
           <Cell
             key={`${rowIndex}-${colIndex}`}
-            isAlive={cell.live}
+            cell={cell}
             toggleCell={() => toggleCell(rowIndex, colIndex)}
           />
         ))

@@ -50,8 +50,6 @@ export const GameProvider = ({ children }) => {
   // When enabled, it allows cells that are about to die the chance to move to an adjacent empty space,
   // providing a unique twist on the traditional game rules.
   const updateGrid = useCallback(() => {
-    if (!isRunning) return;
-
     const newGrid = createEmptyGrid(gridSize.rows, gridSize.cols);
     let newMovingCells = new Map([...movingCells]); // Clone moving cells state
 

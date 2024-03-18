@@ -1,23 +1,32 @@
 import React, { createContext, useCallback, useState } from "react";
 
 export const GameContext = createContext();
+
 export const GameProvider = ({ children }) => {
   // State hooks for grid, gridSize, game status, and count of alive cells
+  const [frame, setFrame] = useState(0);
   const [grid, setGrid] = useState([]);
   const [gridSize, setGridSize] = useState({ rows: 20, cols: 20 });
   const [isRunning, setIsRunning] = useState(false);
-  const [liveCells, setLiveCells] = useState(0);
+
   // State hooks for the grid, grid size, game status, and alive cell count.
   // It also includes a state for enabling the "Longer Lasting Cells" feature.
   const [longerLastingCellsEnabled, setLongerLastingCellsEnabled] =
     useState(false);
   const [movingCells, setMovingCells] = useState(new Map());
 
+  const liveCellsCount = grid
+    .flat()
+    .reduce((count, cell) => count + (cell.live ? 1 : 0), 0);
+
   // Creates an empty grid with all cells initially dead (false)
   const createEmptyGrid = (rows, cols) => {
     // Utilizing Array.from to generate rows and columns
-    return Array.from({ length: rows }, () =>
-      Array.from({ length: cols }, () => false)
+    return new Array(rows).fill(0).map(() =>
+      new Array(cols).fill(0).map(() => ({
+        live: false,
+        lastLiveFrame: null, // number or null
+      }))
     );
   };
   // Populates clusters of alive cells in the grid to reach a target density of 5-10%
@@ -28,8 +37,8 @@ export const GameProvider = ({ children }) => {
       const centerRow = Math.floor(Math.random() * rows);
       const centerCol = Math.floor(Math.random() * cols);
       // Check if the selected cell is dead, to turn it alive
-      if (!grid[centerRow][centerCol]) {
-        grid[centerRow][centerCol] = true;
+      if (!grid[centerRow][centerCol].live) {
+        grid[centerRow][centerCol].live = true;
         placedActiveCells++;
       }
     }
@@ -43,13 +52,14 @@ export const GameProvider = ({ children }) => {
     const targetActiveCells = totalCells * 0.075;
     populateClusters(newGrid, targetActiveCells, gridSize.rows, gridSize.cols);
     setGrid(newGrid);
-    setLiveCells(newGrid.flat().filter((cell) => cell).length);
+    setFrame(0);
   }, [gridSize.rows, gridSize.cols]);
 
   // This updateGrid function includes logic for the "Longer Lasting Cells" feature.
   // When enabled, it allows cells that are about to die the chance to move to an adjacent empty space,
   // providing a unique twist on the traditional game rules.
   const updateGrid = useCallback(() => {
+    setFrame((f) => f + 1);
     const newGrid = createEmptyGrid(gridSize.rows, gridSize.cols);
     let newMovingCells = new Map([...movingCells]); // Clone moving cells state
 
@@ -59,7 +69,7 @@ export const GameProvider = ({ children }) => {
       for (let col = 0; col < gridSize.cols; col++) {
         const cell = grid[row][col];
         const liveNeighbors = countLiveNeighbors(grid, row, col);
-        let cellShouldLive = cell;
+        let cellShouldLive = cell.live;
 
         // Standard Game of Life rules
         if (cell && (liveNeighbors < 2 || liveNeighbors > 3)) {
@@ -81,7 +91,7 @@ export const GameProvider = ({ children }) => {
           }
         }
         // Apply the standard rule or after attempting to move
-        newGrid[row][col] = cellShouldLive;
+        newGrid[row][col].live = cellShouldLive;
       }
     }
     // Processes moving cells that haven't found a new home yet,
@@ -92,7 +102,7 @@ export const GameProvider = ({ children }) => {
         newMovingCells.set(key, framesLeft - 1); // Decrement life of moving cells
       } else {
         newMovingCells.delete(key); // Remove cell that didn't move in time
-        newGrid[row][col] = false; // Ensure the cell is marked as dead
+        newGrid[row][col].live = false; // Ensure the cell is marked as dead
       }
     });
     setGrid(newGrid);
@@ -116,10 +126,10 @@ export const GameProvider = ({ children }) => {
         newRow < gridSize.rows &&
         newCol >= 0 &&
         newCol < gridSize.cols &&
-        !newGrid[newRow][newCol]
+        !newGrid[newRow][newCol].live
       ) {
         // Move the cell to the new position
-        newGrid[newRow][newCol] = true;
+        newGrid[newRow][newCol].live = true;
         return true; // Successful move
       }
     }
@@ -134,8 +144,7 @@ export const GameProvider = ({ children }) => {
     setGridSize,
     isRunning,
     setIsRunning,
-    liveCells,
-    setLiveCells,
+    liveCellsCount,
     initializeGrid,
     longerLastingCellsEnabled,
     setLongerLastingCellsEnabled,
@@ -166,7 +175,7 @@ function countLiveNeighbors(grid, row, col) {
       r < grid.length &&
       c >= 0 &&
       c < grid[0].length &&
-      grid[r][c]
+      grid[r][c].live
     ) {
       acc += 1;
     }

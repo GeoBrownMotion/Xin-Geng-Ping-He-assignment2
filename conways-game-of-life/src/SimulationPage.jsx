@@ -10,8 +10,7 @@ const SimulationPage = () => {
     setGrid,
     isRunning,
     setIsRunning,
-    liveCells,
-    setLiveCells,
+    liveCellsCount,
     initializeGrid,
     longerLastingCellsEnabled,
     setLongerLastingCellsEnabled,
@@ -24,10 +23,8 @@ const SimulationPage = () => {
 
   const toggleCell = (row, col) => {
     const updatedGrid = [...grid];
-    updatedGrid[row][col] = !updatedGrid[row][col];
+    updatedGrid[row][col].live = !updatedGrid[row][col].live;
     setGrid(updatedGrid);
-    const liveCellsCount = updatedGrid.flat().filter((cell) => cell).length;
-    setLiveCells(liveCellsCount);
   };
 
   useInterval(
@@ -68,7 +65,7 @@ const SimulationPage = () => {
               }
             />
           </label>
-          <p>Live Cells: {liveCells}</p>
+          <p>Live Cells: {liveCellsCount}</p>
         </div>
       </div>
     </>

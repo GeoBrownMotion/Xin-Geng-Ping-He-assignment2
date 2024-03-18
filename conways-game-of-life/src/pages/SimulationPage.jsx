@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import { GameContext } from "./GameContext";
-import Grid from "./Grid";
-import NavBar from "./components/NavBar";
-import useInterval from "./useInterval";
+import { GameContext } from "../GameContext";
+import Grid from "../components/Grid";
+import NavBar from "../components/NavBar";
+import useInterval from "../useInterval";
 
 const SimulationPage = () => {
   const {

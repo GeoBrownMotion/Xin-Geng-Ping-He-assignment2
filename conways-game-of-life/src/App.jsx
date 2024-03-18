@@ -2,10 +2,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import CreditsPage from "./CreditsPage";
 import { GameProvider } from "./GameContext";
-import HomePage from "./HomePage";
-import SimulationPage from "./SimulationPage";
+import CreditsPage from "./pages/CreditsPage";
+import HomePage from "./pages/HomePage";
+import SimulationPage from "./pages/SimulationPage";
 
 const router = createHashRouter([
   { path: "/", element: <HomePage /> },

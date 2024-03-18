@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "./components/NavBar";
+import NavBar from "../components/NavBar";
 
 const CreditsPage = () => {
   return (
@@ -8,7 +8,8 @@ const CreditsPage = () => {
       <div className="container">
         <h1>Credits</h1>
         <p>
-          This implementation of Conway's Game of Life was created by [Xin-Geng and Ping-He].
+          This implementation of Conway's Game of Life was created by [Xin-Geng
+          and Ping-He].
         </p>
         <p>
           You can find the source code on GitHub:{" "}

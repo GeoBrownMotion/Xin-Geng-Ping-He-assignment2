@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { GameContext } from "./GameContext";
+import { GameContext } from "../GameContext";
 
 const Cell = ({ cell, toggleCell }) => {
   const { frame } = useContext(GameContext);

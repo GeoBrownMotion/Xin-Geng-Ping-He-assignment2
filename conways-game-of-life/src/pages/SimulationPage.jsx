@@ -91,6 +91,7 @@ const SimulationPage = () => {
         </Form>
 
         <Grid grid={grid} toggleCell={toggleCell} />
+
         <div className="controls">
           <button className="btn btn-primary" onClick={initializeGrid}>
             Reset Grid
@@ -111,8 +112,8 @@ const SimulationPage = () => {
               }
             />
           </label>
-          <p>Live Cells: {liveCellsCount}</p>
         </div>
+        <p>Live Cells: {liveCellsCount}</p>
       </div>
     </>
   );

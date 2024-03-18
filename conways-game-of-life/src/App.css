@@ -24,6 +24,7 @@
 .controls {
   margin-top: 20px;
   margin-bottom: 20px;
+  display: block;
 }
 
 .controls button {
@@ -49,8 +50,21 @@ input[type='number'] {
 .navbar-brand,
 .nav-link {
   cursor: pointer;
+  width: 100vmax;
 }
 
+@media only screen and (max-width: 700px) {
+  .grid {
+    margin: 0px;
+    margin-top: 10px;
+
+  }
+
+  .btn {
+    display: inline-block;
+    margin-top: 5px;
+  }
+}
 
 
 
